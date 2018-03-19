@@ -4,9 +4,19 @@ const usersController = require('./controllers/usersController');
 
 const router = require('koa-router')();
 
+const authorize = async (ctx, next) => {
+  if (!ctx.user) {
+    ctx.status = 401;
+    return;
+  }
+
+  await next();
+};
+
 const routes = function (app) {
   router.post('/sign-up', usersController.create);
   router.get('/log-in', usersController.logIn);
+  router.get('/dashboard', authorize, usersController.dashboard);
 
   router.options('/', options);
   router.trace('/', trace);

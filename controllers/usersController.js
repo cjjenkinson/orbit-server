@@ -28,13 +28,12 @@ module.exports.create = async (ctx, next) => {
     let res;
     const hash = await bcrypt.hash(userObject.password, saltRounds);
     res = {username: userObject.username, email:userObject.email, password: hash, token: uuidv1()};
-    ctx.body = await User.create(res);
-    console.log(ctx.body)
+    await User.create(res);
     ctx.status = 201;
   }
 };
 
-module.exports.me = async (ctx, next) => {
+module.exports.dashboard = async (ctx, next) => {
   if ('GET' != ctx.method) return await next();
   // retrieve the current user data
   ctx.body = ctx.user;
