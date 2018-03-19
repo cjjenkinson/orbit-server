@@ -11,6 +11,7 @@ const Workspaces = new Schema({
   name: String,
   category: String,
   attributes: [ Attributes ]
+  // entries: { type: Schema.Types.ObjectId, ref: 'Entries' }
 });
 
 const User = new Schema({
@@ -21,6 +22,5 @@ const User = new Schema({
   workspaces: [ Workspaces ]
 });
 
-
-
 module.exports = mongoose.model('User', User);
+// module.exports = mongoose.model('Workspaces', Workspaces);

@@ -9,6 +9,7 @@ const saltRounds = 10;
 const uuidv1 = require('uuid/v1');
 
 const User = require('../models/user');
+// const Workspaces = require('../models/user');
 
 module.exports.create = async (ctx, next) => {
   if ('POST' != ctx.method) return await next();
@@ -28,7 +29,7 @@ module.exports.create = async (ctx, next) => {
     let res;
     const hash = await bcrypt.hash(userObject.password, saltRounds);
     res = {username: userObject.username, email:userObject.email, password: hash, token: uuidv1()};
-    await User.create(res);
+    ctx.body = await User.create(res);
     ctx.status = 201;
   }
 };
@@ -71,4 +72,26 @@ module.exports.logIn = async (ctx, next) => {
       return await next();
     }
   }
+};
+
+module.exports.workspace = async (ctx, next) => {
+  if ('POST' != ctx.method) return await next();
+  const workspace = {
+    name: ctx.request.body.name,
+    category: ctx.request.body.category
+  }
+  if (ctx.user.workspaces.some((el) => el.name === workspace.name)) {
+    ctx.status = 401;
+    ctx.body = {
+      errors:[
+        'Workspace already exists.'
+      ]
+    };
+    return;
+  }
+  ctx.status = 200;
+  ctx.user = await User.findOneAndUpdate({'_id': ctx.user._id}, {
+    $push: {workspaces: workspace}
+  });
+  ctx.body = ctx.user;
 };

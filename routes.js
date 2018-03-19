@@ -14,9 +14,13 @@ const authorize = async (ctx, next) => {
 };
 
 const routes = function (app) {
+  // User
   router.post('/sign-up', usersController.create);
   router.get('/log-in', usersController.logIn);
+
+  // Workspaces
   router.get('/dashboard', authorize, usersController.dashboard);
+  router.post('/dashboard', authorize, usersController.workspace);
 
   router.options('/', options);
   router.trace('/', trace);
