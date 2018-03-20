@@ -32,8 +32,9 @@ const routes = function (app) {
   router.post('/dashboard/:id/', authorize, entriesController.addEntry);
   router.delete('/dashboard/:id/:entryId', authorize, entriesController.deleteEntry);
 
-  // // Snapshots
-  // router.get('/dashboard/:id/:entryId', authorize, snapshotsController.entryDetails);
+  // Snapshots
+  router.post('/dashboard/:id/:entryId', authorize, snapshotsController.addSnapshot);
+  router.delete('/dashboard/:id/:entryId/:snapId', authorize, snapshotsController.deleteSnapshot);
 
   router.options('/', options);
   router.trace('/', trace);
