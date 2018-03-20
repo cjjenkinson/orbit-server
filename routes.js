@@ -1,6 +1,9 @@
 'use strict';
 
 const usersController = require('./controllers/usersController');
+const workspacesController = require('./controllers/workspacesController');
+const entriesController = require('./controllers/entriesController');
+const snapshotsController = require('./controllers/snapshotsController');
 
 const router = require('koa-router')();
 
@@ -15,13 +18,22 @@ const authorize = async (ctx, next) => {
 
 const routes = function (app) {
   // User
-  router.post('/sign-up', usersController.create);
   router.get('/log-in', usersController.logIn);
+  router.post('/sign-up', usersController.create);
+  router.delete('/remove', authorize, usersController.removeUser);
 
   // Workspaces
-  router.get('/dashboard', authorize, usersController.dashboard);
-  router.post('/dashboard', authorize, usersController.workspaceAdd);
-  router.delete('/dashboard/:id', authorize, usersController.workspaceDelete);
+  router.get('/dashboard', authorize, workspacesController.dashboard);
+  router.post('/dashboard', authorize, workspacesController.addWorkspace);
+  router.delete('/dashboard/:id', authorize, workspacesController.deleteWorkspace);
+
+  // Entries
+  router.get('/dashboard/:id/', authorize, entriesController.listEntries);
+  router.post('/dashboard/:id/', authorize, entriesController.addEntry);
+  router.delete('/dashboard/:id/:entryId', authorize, entriesController.deleteEntry);
+
+  // // Snapshots
+  // router.get('/dashboard/:id/:entryId', authorize, snapshotsController.entryDetails);
 
   router.options('/', options);
   router.trace('/', trace);

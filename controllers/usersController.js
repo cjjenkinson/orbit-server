@@ -10,6 +10,7 @@ const uuidv1 = require('uuid/v1');
 
 const User = require('../models/user');
 
+// Create a new User
 module.exports.create = async (ctx, next) => {
   if ('POST' != ctx.method) return await next();
   const userData = ctx.request.body;
@@ -33,12 +34,7 @@ module.exports.create = async (ctx, next) => {
   }
 };
 
-module.exports.dashboard = async (ctx, next) => {
-  if ('GET' != ctx.method) return await next();
-  // retrieve the current user data
-  ctx.body = ctx.user;
-};
-
+// Log in a User
 module.exports.logIn = async (ctx, next) => {
   if ('GET' != ctx.method) return await next();
   const fullToken = ctx.header['authorization'].split(' ');
@@ -73,47 +69,9 @@ module.exports.logIn = async (ctx, next) => {
   }
 };
 
-// Adding a new Workspace
-module.exports.workspaceAdd = async (ctx, next) => {
-  if ('POST' != ctx.method) return await next();
-  const workspace = {
-    name: ctx.request.body.name,
-    category: ctx.request.body.category
-  };
-  if (ctx.user.workspaces.some((el) => el.name === workspace.name)) {
-    ctx.status = 401;
-    ctx.body = {
-      errors:[
-        'Workspace already exists.'
-      ]
-    };
-    return;
-  }
-  ctx.user = await User.findOneAndUpdate({'_id': ctx.user._id}, {
-    $push: {workspaces: workspace}
-  });
-  ctx.status = 200;
-  ctx.body = await ctx.user;
-};
-
-// Deleting an existing workspace
-module.exports.workspaceDelete = async (ctx, next) => {
-  const user = await User.findOne({'_id': ctx.user._id});
-  let newWorkspaces = [];
-  if (user) {
-    newWorkspaces = await user.workspaces.filter( el => el._id != ctx.params.id);
-  }
-  if (newWorkspaces.length === user.workspaces.length) {
-    ctx.status = 404;
-    ctx.body = "Workspace not found";
-  }
-  else {
-    ctx.user = await User.findOneAndUpdate({'_id': ctx.user._id}, {workspaces: newWorkspaces});
-    ctx.status = 204;
-  }
-}
-
-// Get entries details
-module.exports.entriesDetails = async (ctx, next) => {
-  console.log(ctx)
+// Remove a user
+module.exports.removeUser = async (ctx, next) => {
+  const user = await User.findOneAndRemove({token: ctx.user.token});
+  ctx.user = '';
+  ctx.status = 204;
 }
