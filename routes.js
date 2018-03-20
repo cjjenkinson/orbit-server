@@ -20,7 +20,8 @@ const routes = function (app) {
 
   // Workspaces
   router.get('/dashboard', authorize, usersController.dashboard);
-  router.post('/dashboard', authorize, usersController.workspace);
+  router.post('/dashboard', authorize, usersController.workspaceAdd);
+  router.delete('/dashboard/:id', authorize, usersController.workspaceDelete);
 
   router.options('/', options);
   router.trace('/', trace);

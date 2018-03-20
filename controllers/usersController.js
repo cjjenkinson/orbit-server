@@ -89,9 +89,31 @@ module.exports.workspaceAdd = async (ctx, next) => {
     };
     return;
   }
-  ctx.status = 200;
   ctx.user = await User.findOneAndUpdate({'_id': ctx.user._id}, {
     $push: {workspaces: workspace}
   });
-  ctx.body = ctx.user;
+  ctx.status = 200;
+  ctx.body = await ctx.user;
 };
+
+// Deleting an existing workspace
+module.exports.workspaceDelete = async (ctx, next) => {
+  const user = await User.findOne({'_id': ctx.user._id});
+  let newWorkspaces = [];
+  if (user) {
+    newWorkspaces = await user.workspaces.filter( el => el._id != ctx.params.id);
+  }
+  if (newWorkspaces.length === user.workspaces.length) {
+    ctx.status = 404;
+    ctx.body = "Workspace not found";
+  }
+  else {
+    ctx.user = await User.findOneAndUpdate({'_id': ctx.user._id}, {workspaces: newWorkspaces});
+    ctx.status = 204;
+  }
+}
+
+// Get entries details
+module.exports.entriesDetails = async (ctx, next) => {
+  console.log(ctx)
+}
