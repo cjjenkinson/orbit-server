@@ -24,11 +24,9 @@ module.exports.addSnapshot = async (ctx, next) => {
 // Delete a snapshot
 module.exports.deleteSnapshot = async (ctx, next) => {
   const targetEntry = await Entry.findOne({'_id': ctx.params.entryId});
-  console.log("TARGETENTRY",targetEntry)
   let newSnapshots = [];
   if (targetEntry) {
     newSnapshots = await targetEntry.snapshots.filter( el => el._id != ctx.params.snapId);
-    console.log("NEW SNAP",newSnapshots)
   }
   if (newSnapshots.length === targetEntry.snapshots.length) {
     ctx.status = 404;
