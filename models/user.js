@@ -15,7 +15,7 @@ const Workspaces = new Schema({
 });
 
 const User = new Schema({
-  username: String,
+  name: String,
   email: String,
   password: String,
   token: String,

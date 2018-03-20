@@ -15,20 +15,20 @@ module.exports.create = async (ctx, next) => {
   if ('POST' != ctx.method) return await next();
   const userData = ctx.request.body;
 
-  let user = await User.findOne({username:userData.username});
+  let user = await User.findOne({email:userData.email});
 
   if (user) {
     ctx.status = 400;
     ctx.body = {
       errors:[
-        'Username already exists.'
+        'e-mail already exists.'
       ]
     };
   } else {
-    let userObject = filterProps(userData, ['username','password','email']);
+    let userObject = filterProps(userData, ['name','password','email']);
     let res;
     const hash = await bcrypt.hash(userObject.password, saltRounds);
-    res = {username: userObject.username, email:userObject.email, password: hash, token: uuidv1()};
+    res = {name: userObject.name, email:userObject.email, password: hash, token: uuidv1()};
     ctx.body = await User.create(res);
     ctx.status = 201;
   }
@@ -46,10 +46,10 @@ module.exports.logIn = async (ctx, next) => {
   if (fullToken[0] === 'Basic') {
     let encUser = fullToken[1];
     let user = atob(encUser);
-    let [username, password] = user.split(':');
-    ctx.user = await User.findOne({username});
+    let [email, password] = user.split(':');
+    ctx.user = await User.findOne({email});
     if(ctx.user !== null) {
-      const same = bcrypt.compare(password, ctx.user.password);
+      const same = await bcrypt.compare(password, ctx.user.password);
       if(same) {
         // Passwords match
         ctx.status = 200;
@@ -57,7 +57,7 @@ module.exports.logIn = async (ctx, next) => {
       }
     } else {
       ctx.status = 401;
-      ctx.body = "Not the correct token";
+      ctx.body = "Wrong e-mail or password";
       return await next();
     }
   } else {
