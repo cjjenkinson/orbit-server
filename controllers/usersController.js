@@ -9,7 +9,6 @@ const saltRounds = 10;
 const uuidv1 = require('uuid/v1');
 
 const User = require('../models/user');
-// const Workspaces = require('../models/user');
 
 module.exports.create = async (ctx, next) => {
   if ('POST' != ctx.method) return await next();
@@ -74,12 +73,13 @@ module.exports.logIn = async (ctx, next) => {
   }
 };
 
-module.exports.workspace = async (ctx, next) => {
+// Adding a new Workspace
+module.exports.workspaceAdd = async (ctx, next) => {
   if ('POST' != ctx.method) return await next();
   const workspace = {
     name: ctx.request.body.name,
     category: ctx.request.body.category
-  }
+  };
   if (ctx.user.workspaces.some((el) => el.name === workspace.name)) {
     ctx.status = 401;
     ctx.body = {
