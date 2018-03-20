@@ -38,6 +38,7 @@ app.use(async (ctx, next) => {
 });
 
 app.use(async (ctx, next) => {
+  if(!ctx.headers['authorization']) return await next();
   let token = ctx.headers['authorization'].split(' ').pop();
 
   if (!token) return await next();
