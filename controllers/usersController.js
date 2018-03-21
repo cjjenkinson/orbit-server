@@ -1,11 +1,11 @@
 'use strict';
 
 const filterProps = require('../services/utils').filterProps;
-
+require('dotenv').config();
 const atob = require('atob');
 
 const bcrypt = require('bcrypt');
-const saltRounds = 10;
+const saltRounds = process.env.SALT;
 const uuidv1 = require('uuid/v1');
 
 const User = require('../models/user');

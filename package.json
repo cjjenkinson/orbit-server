@@ -20,6 +20,7 @@
   "dependencies": {
     "atob": "^2.0.3",
     "bcrypt": "^1.0.3",
+    "dotenv": "^5.0.1",
     "kcors": "^2.2.1",
     "koa": "^2.5.0",
     "koa-bodyparser": "^4.2.0",
