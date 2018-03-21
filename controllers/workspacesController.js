@@ -7,15 +7,41 @@ module.exports.dashboard = async (ctx, next) => {
   if ('GET' != ctx.method) return await next();
   // retrieve the current user data
   ctx.status = 200;
-  ctx.body = ctx.user.workspaces;
+  const answer = {
+    id: ctx.user._id,
+    name: ctx.user.name,
+    email: ctx.user.email,
+    token: ctx.user.token,
+    workspaces: ctx.user.workspaces
+  }
+  ctx.body = answer;
 };
 
 // Adding a new Workspace
 module.exports.addWorkspace = async (ctx, next) => {
   if ('POST' != ctx.method) return await next();
+  if (!ctx.request.body.name || !ctx.request.body.category) {
+    ctx.status = 400;
+    ctx.body = {
+      errors:[
+        'Name and category cannot be empty!'
+      ]
+    };
+    return;
+  }
+  const category = await Catergories.findOne({'name': ctx.request.body.category});
+  if (!category) {
+    ctx.status = 400;
+    ctx.body = {
+      errors:[
+        'Category doesn\'t exist!'
+      ]*
+    };
+    return;
+  }
   const workspace = {
     name: ctx.request.body.name,
-    category: ctx.request.body.category
+    category: category._id
   };
   if (ctx.user.workspaces.some((el) => el.name === workspace.name)) {
     ctx.status = 401;

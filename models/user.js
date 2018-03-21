@@ -2,15 +2,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 
-const Attributes = new Schema({
-  name: String,
-  subattributes: Array
-});
+
 
 const Workspaces = new Schema({
   name: String,
-  category: String,
-  attributes: [ Attributes ],
+  category: { type: Schema.Types.ObjectId, ref: 'Catergories' },
   entries: [{ type: Schema.Types.ObjectId, ref: 'Entries' }]
 });
 

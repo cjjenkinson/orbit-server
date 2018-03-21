@@ -12,7 +12,7 @@ require('dotenv').config();
 const options = { server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
                 replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS : 30000 } } };
 
-const mongodbUri = 'mongodb://process.env.DB_USERNAME:process.env.DB_PASSWORD@process.env.DB_HOST:process.env.DB_PORT/process.env.DB_NAME';
+const mongodbUri = `mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`;         
 
 mongoose.connect(mongodbUri, options)
   .then(() => {

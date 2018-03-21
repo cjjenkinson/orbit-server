@@ -26,6 +26,15 @@ module.exports.listEntries = async (ctx, next) => {
 // Adding a new Entry
 module.exports.addEntry = async (ctx, next) => {
   if ('POST' != ctx.method) return await next();
+  if (!ctx.request.body.name) {
+    ctx.status = 400;
+    ctx.body = {
+      errors:[
+        'Name cannot be empty!'
+      ]
+    };
+    return;
+  }
   const user = await User.findOne({'_id': ctx.user._id});
   const targetWorkspace = await user.workspaces.filter( el => el._id == ctx.params.id);
   const entry = await Entry.create({

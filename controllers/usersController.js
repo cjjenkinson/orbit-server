@@ -5,7 +5,7 @@ require('dotenv').config();
 const atob = require('atob');
 
 const bcrypt = require('bcrypt');
-const saltRounds = process.env.SALT;
+const saltRounds = 10;
 const uuidv1 = require('uuid/v1');
 
 const User = require('../models/user');
@@ -14,9 +14,25 @@ const User = require('../models/user');
 module.exports.create = async (ctx, next) => {
   if ('POST' != ctx.method) return await next();
   const userData = ctx.request.body;
-
+  if (!userData.email || !userData.password || !userData.name) {
+    ctx.status = 400;
+    ctx.body = {
+      errors:[
+        'Email, Password and Username cannot be empty!'
+      ]
+    };
+    return;
+  }
+  if (userData.password.length < 8) {
+    ctx.status = 400;
+    ctx.body = {
+      errors:[
+        'Password cannot be shorter than 8 digits'
+      ]
+    };
+    return;
+  }
   let user = await User.findOne({email:userData.email});
-
   if (user) {
     ctx.status = 400;
     ctx.body = {
@@ -27,6 +43,8 @@ module.exports.create = async (ctx, next) => {
   } else {
     let userObject = filterProps(userData, ['name','password','email']);
     let res;
+    console.log("SALTROUND",saltRounds)
+    console.log("Password",userObject.password)
     const hash = await bcrypt.hash(userObject.password, saltRounds);
     res = {name: userObject.name, email:userObject.email, password: hash, token: uuidv1()};
     ctx.body = await User.create(res);

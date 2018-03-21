@@ -6,6 +6,18 @@ const Entry = require('../models/entry');
 // Add a new snapshot
 module.exports.addSnapshot = async (ctx, next) => {
   if ('POST' != ctx.method) return await next();
+  if (!ctx.request.body.title || ctx.request.body.enablers) {
+    ctx.status = 400;
+    ctx.body = {
+      errors:[
+        'Title and enablers cannot be empty!'
+      ]
+    };
+    return;
+  }
+  // function checkEnablers (enablers) {
+  //   if (enablers.length ===
+  // }
   const targetEntry = await Entry.findOne({'_id': ctx.params.entryId});
   const snapshot = {
     date: Date.now(),
