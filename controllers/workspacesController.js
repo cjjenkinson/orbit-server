@@ -30,7 +30,7 @@ module.exports.addWorkspace = async (ctx, next) => {
     $push: {workspaces: workspace}
   });
   ctx.status = 200;
-  ctx.body = await ctx.user.workspaces;
+  ctx.body = workspace;
 };
 
 // Deleting an existing workspace

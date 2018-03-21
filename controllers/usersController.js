@@ -5,7 +5,7 @@ require('dotenv').config();
 const atob = require('atob');
 
 const bcrypt = require('bcrypt');
-const saltRounds = process.env.SALT;
+const saltRounds = 15;
 const uuidv1 = require('uuid/v1');
 
 const User = require('../models/user');
