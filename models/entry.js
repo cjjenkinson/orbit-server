@@ -1,18 +1,17 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-
-const Snapshots = new Schema({
+const Snapshot = new Schema({
   date: Date,
   title: String,
   comments: String,
   enablers: Array
 });
 
-const Entries = new Schema({
+const Entry = new Schema({
   name: String,
-  workspace: { type: Schema.Types.ObjectId, ref: 'Workspaces' },
-  snapshots: [ Snapshots ]
+  workspace: { type: Schema.Types.ObjectId, ref: 'Workspace' },
+  snapshots: [ Snapshot ]
 });
 
-module.exports = mongoose.model('Entries', Entries);
+module.exports = mongoose.model('Entry', Entry);

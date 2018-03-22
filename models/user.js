@@ -1,17 +1,10 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-
-const Attributes = new Schema({
+const Workspace = new Schema({
   name: String,
-  subattributes: Array
-});
-
-const Workspaces = new Schema({
-  name: String,
-  category: String,
-  attributes: [ Attributes ],
-  entries: [{ type: Schema.Types.ObjectId, ref: 'Entries' }]
+  category: { type: Schema.Types.ObjectId, ref: 'Catergory' },
+  entries: [{ type: Schema.Types.ObjectId, ref: 'Entry' }]
 });
 
 const User = new Schema({
@@ -19,7 +12,7 @@ const User = new Schema({
   email: String,
   password: String,
   token: String,
-  workspaces: [ Workspaces ]
+  workspaces: [ Workspace ]
 });
 
 module.exports = mongoose.model('User', User);
