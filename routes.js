@@ -2,6 +2,7 @@
 
 const usersController = require('./controllers/usersController');
 const workspacesController = require('./controllers/workspacesController');
+const categoriesController = require('./controllers/categoriesController');
 const entriesController = require('./controllers/entriesController');
 const snapshotsController = require('./controllers/snapshotsController');
 
@@ -21,6 +22,11 @@ const routes = function (app) {
   router.get('/log-in', usersController.logIn);
   router.post('/sign-up', usersController.create);
   router.delete('/remove', authorize, usersController.removeUser);
+
+  // Catergories
+  router.get('/categories', authorize, categoriesController.getAllCategory);
+  router.get('/categories/:id', authorize, categoriesController.getCategory);
+  router.post('/categories', authorize, categoriesController.addCategory);
 
   // Workspaces
   router.get('/dashboard', authorize, workspacesController.dashboard);

@@ -1,12 +1,11 @@
 'use strict';
 
 const User = require('../models/user');
+const Category = require('../models/category');
 
 // Get all Workspaces
 module.exports.dashboard = async (ctx, next) => {
   if ('GET' != ctx.method) return await next();
-  // retrieve the current user data
-  ctx.status = 200;
   const answer = {
     id: ctx.user._id,
     name: ctx.user.name,
@@ -14,6 +13,7 @@ module.exports.dashboard = async (ctx, next) => {
     token: ctx.user.token,
     workspaces: ctx.user.workspaces
   }
+  ctx.status = 200;
   ctx.body = answer;
 };
 
@@ -27,17 +27,17 @@ module.exports.addWorkspace = async (ctx, next) => {
         'Name and category cannot be empty!'
       ]
     };
-    return;
+    return await next();
   }
-  const category = await Catergories.findOne({'name': ctx.request.body.category});
+  const category = await Category.findOne({'name': ctx.request.body.category});
   if (!category) {
     ctx.status = 400;
     ctx.body = {
       errors:[
         'Category doesn\'t exist!'
-      ]*
+      ]
     };
-    return;
+    return await next();
   }
   const workspace = {
     name: ctx.request.body.name,
@@ -50,28 +50,29 @@ module.exports.addWorkspace = async (ctx, next) => {
         'Workspace already exists.'
       ]
     };
-    return;
+    return await next();
   }
-  ctx.user = await User.findOneAndUpdate({'_id': ctx.user._id}, {
+  await User.findOneAndUpdate({'_id': ctx.user._id}, {
     $push: {workspaces: workspace}
   });
+  ctx.user = await User.findOne({'_id': ctx.user._id});
   ctx.status = 200;
-  ctx.body = await ctx.user.workspaces;
+  ctx.body = ctx.user.workspaces.pop();
 };
 
 // Deleting an existing workspace
 module.exports.deleteWorkspace = async (ctx, next) => {
   const user = await User.findOne({'_id': ctx.user._id});
-  let newWorkspaces = [];
-  if (user) {
-    newWorkspaces = await user.workspaces.filter( el => el._id != ctx.params.id);
-  }
+  const newWorkspaces = await user.workspaces.filter( el => el._id != ctx.params.id);
   if (newWorkspaces.length === user.workspaces.length) {
     ctx.status = 404;
-    ctx.body = "Workspace not found";
+    ctx.body = {
+      errors:[
+        'Workspace doesn\'t exists.'
+      ]
+    };
+    return await next();
   }
-  else {
-    ctx.user = await User.findOneAndUpdate({'_id': ctx.user._id}, {workspaces: newWorkspaces});
-    ctx.status = 204;
-  }
+  ctx.user = await User.findOneAndUpdate({'_id': ctx.user._id}, {workspaces: newWorkspaces});
+  ctx.status = 204;
 }
