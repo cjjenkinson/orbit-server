@@ -2,6 +2,7 @@
 
 const User = require('../models/user');
 const Entry = require('../models/entry');
+const Category = require('../models/category');
 
 // Add a new snapshot
 module.exports.addSnapshot = async (ctx, next) => {
@@ -15,8 +16,32 @@ module.exports.addSnapshot = async (ctx, next) => {
     };
     return await next();
   }
-  const targetEntry = await Entry.findOne({'_id': ctx.params.entryId});
+  const user = await User.findOne({'_id': ctx.user._id});
+  const categoryId = user.workspaces.filter( el => el._id == ctx.params.id)[0].category;
+  const category = await Category.findById(categoryId);
 
+  function checkAmountEnablers (category, enablers) {
+    let check = false;
+    if (category.attributesAmount.length === enablers.length) {
+      for (let i = 0; i < enablers.length; i++) {
+        if (category.attributesAmount[i] !== enablers[i].length) {
+          return check;
+        }
+      }
+      check = true;
+    }
+    return check;
+  }
+  if (!checkAmountEnablers(category,ctx.request.body.enablers)) {
+    ctx.status = 400;
+    ctx.body = {
+      errors:[
+        'Enablers input doesn\'t fit the selected category'
+      ]
+    };
+    return await next();
+  }
+  const targetEntry = await Entry.findOne({'_id': ctx.params.entryId});
   const snapshot = {
     date: Date.now(),
     title: ctx.request.body.title,

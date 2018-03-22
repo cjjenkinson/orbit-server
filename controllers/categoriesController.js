@@ -10,7 +10,7 @@ module.exports.getAllCategory = async (ctx, next) => {
   ctx.body = categories;
 }
 
-// Get Catergory
+// Get Category
 module.exports.getCategory = async (ctx, next) => {
   if ('GET' != ctx.method) return await next();
   const category = await Category.findOne({'_id': ctx.params.id});
@@ -56,7 +56,6 @@ module.exports.addCategory = async (ctx, next) => {
   }
   category = await Category.create({
     name: ctx.request.body.name,
-    enablersAmount: ctx.request.body.enablers.length,
     attributesAmount: attributesAmount(ctx.request.body.enablers),
     enablers: ctx.request.body.enablers
   });

@@ -41,9 +41,9 @@ module.exports.addWorkspace = async (ctx, next) => {
   }
   const workspace = {
     name: ctx.request.body.name,
-    category: ctx.request.body.category
+    category: category._id
   };
-  if (ctx.user.workspaces.some((el) => el.name === workspace.name)) {
+  if (ctx.user.workspaces.some((el) => el.name === ctx.request.body.name)) {
     ctx.status = 401;
     ctx.body = {
       errors:[

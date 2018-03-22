@@ -8,7 +8,6 @@ const Enabler = new Schema({
 
 const Category = new Schema({
   name: String,
-  enablersAmount: Number,
   attributesAmount: Array,
   enablers: [ Enabler ]
 });
