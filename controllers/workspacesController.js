@@ -20,29 +20,21 @@ module.exports.dashboard = async (ctx, next) => {
 // Adding a new Workspace
 module.exports.addWorkspace = async (ctx, next) => {
   if ('POST' != ctx.method) return await next();
-  if (!ctx.request.body.name || !ctx.request.body.category) {
+  if (!ctx.request.body.name) {
     ctx.status = 400;
     ctx.body = {
       errors:[
-        'Name and category cannot be empty!'
+        'Workspace name cannot be empty!'
       ]
     };
     return await next();
   }
-  const category = await Category.findOne({'name': ctx.request.body.category});
-  if (!category) {
-    ctx.status = 400;
-    ctx.body = {
-      errors:[
-        'Category doesn\'t exist!'
-      ]
-    };
-    return await next();
-  }
+
   const workspace = {
     name: ctx.request.body.name,
-    category: category._id
+    template: ctx.request.body.template
   };
+
   if (ctx.user.workspaces.some((el) => el.name === ctx.request.body.name)) {
     ctx.status = 401;
     ctx.body = {
@@ -52,9 +44,11 @@ module.exports.addWorkspace = async (ctx, next) => {
     };
     return await next();
   }
+
   await User.findOneAndUpdate({'_id': ctx.user._id}, {
-    $push: {workspaces: workspace}
+    $push: { workspaces: workspace }
   });
+
   ctx.user = await User.findOne({'_id': ctx.user._id});
   ctx.status = 200;
   ctx.body = ctx.user.workspaces.pop();

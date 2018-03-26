@@ -1,0 +1,81 @@
+Arguments: 
+  /usr/local/bin/node /usr/local/Cellar/yarn/1.5.1_1/libexec/bin/yarn.js
+
+PATH: 
+  /Users/cameronjenkinson/google-cloud-sdk/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
+Yarn version: 
+  1.5.1
+
+Node version: 
+  8.9.1
+
+Platform: 
+  darwin x64
+
+npm manifest: 
+  {
+    "name": "orbit-server",
+    "version": "1.0.0",
+    "description": "Backend for Orbit project",
+    "main": "app.js",
+    "scripts": {
+      "start": "nodemon app.js",
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/cjjenkinson/orbit-server.git"
+    },
+    "author": "Ben Eisenberg & Cameron Jenkinson & Giovanni Montanari & Tom Moore & George Perry",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/cjjenkinson/orbit-server/issues"
+    },
+    "homepage": "https://github.com/cjjenkinson/orbit-server#readme",
+    "dependencies": {
+      "atob": "^2.0.3",
+      "bcrypt": "^1.0.3",
+      "dotenv": "^5.0.1",
+      "kcors": "^2.2.1",
+      "koa": "^2.5.0",
+      "koa-bodyparser": "^4.2.0",
+      "koa-compress": "^2.0.0",
+      "koa-logger": "^3.2.0",
+      "koa-route": "^3.2.0",
+      "koa-router": "^7.4.0",
+      "lodash": "^4.17.5",
+      "mongoose": "^5.0.10",
+      "nodemon": "^1.17.2",
+      "uuid": "^3.2.1"
+    },
+    "devDependencies": {
+      "eslint": "^4.10.0",
+      "eslint-plugin-json": "^1.2.0",
+      "mocha": "^2.1.0",
+      "supertest": "^2.0.0"
+    },
+    "engines": {
+      "node": "6.4.0",
+      "npm": "3.10.7"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  Error: Found incompatible module
+      at new MessageError (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:186:110)
+      at Object.checkOne (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:62444:11)
+      at /usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:22773:75
+      at Generator.next (<anonymous>)
+      at step (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:98:30)
+      at /usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:116:14
+      at new Promise (<anonymous>)
+      at new F (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:23451:28)
+      at /usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:95:12
+      at /usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:22777:27
