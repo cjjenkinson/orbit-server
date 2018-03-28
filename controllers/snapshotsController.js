@@ -20,27 +20,6 @@ module.exports.addSnapshot = async (ctx, next) => {
   const categoryId = user.workspaces.filter( el => el._id == ctx.params.id)[0].category;
   const category = await Category.findById(categoryId);
 
-  function checkAmountEnablers (category, enablers) {
-    let check = false;
-    if (category.attributesAmount.length === enablers.length) {
-      for (let i = 0; i < enablers.length; i++) {
-        if (category.attributesAmount[i] !== enablers[i].length) {
-          return check;
-        }
-      }
-      check = true;
-    }
-    return check;
-  }
-  if (!checkAmountEnablers(category,ctx.request.body.enablers)) {
-    ctx.status = 400;
-    ctx.body = {
-      errors:[
-        'Enablers input doesn\'t fit the selected category'
-      ]
-    };
-    return await next();
-  }
   const targetEntry = await Entry.findOne({'_id': ctx.params.entryId});
   const snapshot = {
     date: Date.now(),
@@ -50,8 +29,10 @@ module.exports.addSnapshot = async (ctx, next) => {
   }
   await targetEntry.snapshots.push(snapshot)
   await targetEntry.save();
-  ctx.status = 200;
-  ctx.body = await targetEntry.snapshots;
+  ctx.status = 201;
+  ctx.body = {
+    snapshot,
+  }
 }
 
 // Delete a snapshot
