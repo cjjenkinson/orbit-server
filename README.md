@@ -1,3 +1,7 @@
+<div align="center">
+ <img width="200" height="200" src="https://github.com/cjjenkinson/orbit/blob/develop/src/assets/images/orbit_logo%402x.png"></img>
+</div>
+
 # Orbit-server
 
 Orbit-server is the back-end for [Orbit](https://github.com/cjjenkinson/orbit) , an open-source data visualisation tool that allows businesses, sports teams and educational institutions track, measure and improve performance. Built using cutting-edge technologies, Orbit provides a birds-eye-view on performance metrics in a way that is easy to understand and digest. Students, players and employees are presented with key changes they can make to improve the performance through a complex neural networks, helping users focus their time more effectively and efficiently.
