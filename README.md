@@ -24,14 +24,13 @@ Orbit-server is the back-end for [Orbit](https://github.com/cjjenkinson/orbit) ,
 
 
 
-
 # Using Orbit-server
 
 A few things you have to take in consideration before using Orbit-server
 
 After cloning the repo you'll have to :
 
-###Install global and local dependancies:
+### Install global and local dependancies:
 
 * NPM
 
@@ -40,7 +39,7 @@ After cloning the repo you'll have to :
 
 ## Two options using the database
 
-###1. You use an online database
+### 1. You use an online database
 
 In this case you should: 
 
@@ -55,7 +54,7 @@ DB_PORT=YOUR_DB_PORT
 DB_NAME=YOUR_DB_NAME
 ```
 
-###Connet to Database
+### Connet to Database
 
 In the shell type:
 
@@ -78,7 +77,7 @@ In the shell type:
 
 
 
-##Start the server
+## Start the server
 
 In the shell type:
 
@@ -92,4 +91,4 @@ In the shell type:
 
 Use this link to get all requests: [Orbit end-points](https://www.getpostman.com/collections/ac2fd74513927f01fa8f).
 
-Don't forget to create a new Environment [url](http://localhost:3000).
+Don't forget to create a new Environment (http://localhost:3000).
