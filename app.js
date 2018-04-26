@@ -6,7 +6,6 @@ const app = module.exports = new koa();
 const routes = require('./routes.js');
 
 const User = require('./models/user.model');
-const config = require('./config/cache.config');
 require('./db');
 
 // Dependencies
@@ -19,7 +18,6 @@ const cache = require('koa-redis-cache');
 // Logger
 app.use(logger());
 app.use(cors());
-app.use(cache(config.cacheConfig));
 app.use(bodyParser());
 
 app.use(async (ctx, next) => {
