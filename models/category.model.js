@@ -1,15 +1,14 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-const Enabler = new Schema({
-  name: String,
-  attributes: Array
-});
+const Skill = require('./skill.model')
 
-const Category = new Schema({
-  name: String,
+const Category = new mongoose.Schema({
+  name: {
+    type: String,
+    required: 'A category must have a name!',
+  },
   attributesAmount: Array,
-  enablers: [Enabler]
+  skills: [Skill]
 });
 
 module.exports = mongoose.model('Category', Category);

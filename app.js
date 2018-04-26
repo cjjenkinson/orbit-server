@@ -54,8 +54,8 @@ app.use(compress());
 
 // Run server
 if (!module.parent) {
-  const port = process.env.PORT || 3000;
+  const ip = process.env.ip || 'localhost';
+  const port = process.env.port || 3000;
   app.listen(port);
-  // eslint-disable-next-line
-  console.log('Listening to Orbits server at port %s', port);
+  console.log(`Orbits server running at http://${ip}:${port}`);
 }

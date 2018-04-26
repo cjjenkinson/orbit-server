@@ -1,17 +1,14 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-const Snapshot = new Schema({
-  date: Date,
-  title: String,
-  comments: String,
-  enablers: Array
-});
+const Snapshot = require('./snapshot.schema');
 
-const Entry = new Schema({
-  name: String,
+const Entry = new mongoose.Schema({
+  name: {
+    type: String,
+    required: 'An entry must have a name!',
+  },
   workspace: {
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Workspace'
   },
   snapshots: [Snapshot]

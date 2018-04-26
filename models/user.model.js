@@ -1,17 +1,28 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const validator = require('validator');
 
-const Workspace = new Schema({
-	name: String,
-	template: Object,
-	category: { type: Schema.Types.ObjectId, ref: 'Category' },
-	entries: [{ type: Schema.Types.ObjectId, ref: 'Entry' }],
-});
+const Workspace = require('./workspace.schema');
 
-const User = new Schema({
-	name: String,
-	email: String,
-	password: String,
+const User = new mongoose.Schema({
+	name: {
+    type: String,
+    required: 'A user must have a name!',
+    trim: true,
+  },
+	email: {
+    type: String,
+    required: 'A user must have a email!',
+    unique: true,
+    lowercase: true,
+    trim: true,
+    validate: [validator.isEmail, 'Invalid email!']
+  },
+	password: {
+    type: String,
+		required: 'A user must have a password!',
+		minlength: 4,
+		maxlength: 64,
+  },
 	token: String,
 	workspaces: [Workspace],
 });
