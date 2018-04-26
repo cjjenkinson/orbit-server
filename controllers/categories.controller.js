@@ -1,6 +1,6 @@
 'use strict';
 
-const Category = require('../models/category');
+const Category = require('../models/category.model');
 
 // Get all Categories
 module.exports.getAllCategory = async (ctx, next) => {

@@ -10,8 +10,11 @@ const Snapshot = new Schema({
 
 const Entry = new Schema({
   name: String,
-  workspace: { type: Schema.Types.ObjectId, ref: 'Workspace' },
-  snapshots: [ Snapshot ]
+  workspace: {
+    type: Schema.Types.ObjectId,
+    ref: 'Workspace'
+  },
+  snapshots: [Snapshot]
 });
 
 module.exports = mongoose.model('Entry', Entry);

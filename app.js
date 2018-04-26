@@ -5,7 +5,7 @@ const koa = require('koa');
 const app = module.exports = new koa();
 const routes = require('./routes.js');
 
-const User = require('./models/user');
+const User = require('./models/user.model');
 require('./db');
 
 // Dependencies

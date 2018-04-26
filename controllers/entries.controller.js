@@ -1,7 +1,7 @@
 'use strict';
 
-const User = require('../models/user');
-const Entry = require('../models/entry');
+const User = require('../models/user.model');
+const Entry = require('../models/entry.model');
 
 // Get all Entries
 module.exports.listEntries = async (ctx, next) => {

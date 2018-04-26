@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const Workspace = new Schema({
 	name: String,
 	template: Object,
-	category: { type: Schema.Types.ObjectId, ref: 'Catergory' },
+	category: { type: Schema.Types.ObjectId, ref: 'Category' },
 	entries: [{ type: Schema.Types.ObjectId, ref: 'Entry' }],
 });
 

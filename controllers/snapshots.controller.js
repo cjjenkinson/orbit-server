@@ -1,8 +1,8 @@
 'use strict';
 
-const User = require('../models/user');
-const Entry = require('../models/entry');
-const Category = require('../models/category');
+const User = require('../models/user.model');
+const Entry = require('../models/entry.model');
+const Category = require('../models/category.model');
 
 // Add a new snapshot
 module.exports.addSnapshot = async (ctx, next) => {

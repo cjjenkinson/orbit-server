@@ -9,7 +9,7 @@ const Enabler = new Schema({
 const Category = new Schema({
   name: String,
   attributesAmount: Array,
-  enablers: [ Enabler ]
+  enablers: [Enabler]
 });
 
 module.exports = mongoose.model('Category', Category);

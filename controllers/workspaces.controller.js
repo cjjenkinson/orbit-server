@@ -1,7 +1,7 @@
 'use strict';
 
-const User = require('../models/user');
-const Category = require('../models/category');
+const User = require('../models/user.model');
+const Category = require('../models/category.model');
 
 // Get all Workspaces
 module.exports.dashboard = async (ctx, next) => {
