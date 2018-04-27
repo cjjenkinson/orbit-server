@@ -9,7 +9,7 @@ const Snapshot = new mongoose.Schema({
     required: 'A snapshot must have a name!',
   },
   comments: [String],
-  enablers: [Skill]
+  enablers: Array
 });
 
 module.exports = Snapshot;
