@@ -21,6 +21,7 @@ module.exports.listEntries = async (ctx, next) => {
   let current;
   for (let x = 0; x < targetWorkspace[0].entries.length; x++) {
     current = await Entry.findOne({'_id': targetWorkspace[0].entries[x]})
+    current.snapshots.sort((a,b) => a.date - b.date);
     await allEntries.push(current)
   }
   ctx.status = 200;
