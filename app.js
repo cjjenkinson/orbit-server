@@ -5,7 +5,7 @@ const koa = require('koa');
 const app = module.exports = new koa();
 const routes = require('./routes.js');
 
-const User = require('./models/user');
+const User = require('./models/user.model');
 require('./db');
 
 // Dependencies
@@ -13,6 +13,7 @@ const bodyParser = require('koa-bodyparser');
 const compress = require('koa-compress');
 const cors = require('kcors');
 const logger = require('koa-logger');
+const cache = require('koa-redis-cache');
 
 // Logger
 app.use(logger());
@@ -54,8 +55,8 @@ app.use(compress());
 
 // Run server
 if (!module.parent) {
-  const port = process.env.PORT || 3000;
+  const ip = process.env.ip || 'localhost';
+  const port = process.env.port || 3000;
   app.listen(port);
-  // eslint-disable-next-line
-  console.log('Listening to Orbits server at port %s', port);
+  console.log(`Orbits server running at http://${ip}:${port}`);
 }

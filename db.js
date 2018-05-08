@@ -9,8 +9,20 @@ require('dotenv').config();
  * plenty of time in most operating environments.
  */
 
-const options = { server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
-                replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS : 30000 } } };
+const options = {
+  server: {
+    socketOptions: {
+      keepAlive: 300000,
+      connectTimeoutMS: 30000
+    }
+  },
+  replset: {
+    socketOptions: {
+      keepAlive: 300000,
+      connectTimeoutMS: 30000
+    }
+  }
+};
 
 const mongodbUri = `mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
 
@@ -19,7 +31,7 @@ mongoose.connect(mongodbUri, options)
     console.log('Connected to Orbits database');
   })
   .catch(err => {
-    console.log('Connection error');
+    console.log('Connection error', err);
   })
 
 

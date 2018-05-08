@@ -7,7 +7,7 @@ const uuidv1 = require('uuid/v1');
 require('dotenv').config();
 
 const filterProps = require('../services/utils').filterProps;
-const User = require('../models/user');
+const User = require('../models/user.model');
 
 // Create a new User
 module.exports.create = async (ctx, next) => {

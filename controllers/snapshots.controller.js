@@ -1,17 +1,17 @@
 'use strict';
 
-const User = require('../models/user');
-const Entry = require('../models/entry');
-const Category = require('../models/category');
+const User = require('../models/user.model');
+const Entry = require('../models/entry.model');
+const Category = require('../models/category.model');
 
 // Add a new snapshot
 module.exports.addSnapshot = async (ctx, next) => {
   if ('POST' != ctx.method) return await next();
-  if (!ctx.request.body.title || !ctx.request.body.enablers) {
+  if (!ctx.request.body.date || !ctx.request.body.enablers) {
     ctx.status = 404;
     ctx.body = {
       errors:[
-        'Title and enablers are mandatory fields.'
+        'Date and enablers are mandatory fields.'
       ]
     };
     return await next();
@@ -22,8 +22,7 @@ module.exports.addSnapshot = async (ctx, next) => {
 
   const targetEntry = await Entry.findOne({'_id': ctx.params.entryId});
   const snapshot = {
-    date: Date.now(),
-    title: ctx.request.body.title,
+    date: ctx.request.body.date,
     comments: ctx.request.body.comments || "",
     enablers: ctx.request.body.enablers
   }

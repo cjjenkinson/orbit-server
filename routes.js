@@ -1,10 +1,10 @@
 'use strict';
 
-const usersController = require('./controllers/usersController');
-const workspacesController = require('./controllers/workspacesController');
-const categoriesController = require('./controllers/categoriesController');
-const entriesController = require('./controllers/entriesController');
-const snapshotsController = require('./controllers/snapshotsController');
+const usersController = require('./controllers/users.controller');
+const workspacesController = require('./controllers/workspaces.controller');
+const categoriesController = require('./controllers/categories.controller');
+const entriesController = require('./controllers/entries.controller');
+const snapshotsController = require('./controllers/snapshots.controller');
 
 const router = require('koa-router')();
 
@@ -13,7 +13,6 @@ const authorize = async (ctx, next) => {
     ctx.status = 401;
     return;
   }
-
   await next();
 };
 
@@ -23,7 +22,7 @@ const routes = function (app) {
   router.post('/sign-up', usersController.create);
   router.delete('/remove', authorize, usersController.removeUser);
 
-  // Catergories
+  // Categories
   router.get('/categories', authorize, categoriesController.getAllCategory);
   router.get('/categories/:id', authorize, categoriesController.getCategory);
   router.post('/categories', authorize, categoriesController.addCategory);
